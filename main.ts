@@ -1,11 +1,36 @@
-info.onCountdownEnd(function () {
+info.onScore(15, function () {
     game.setGameOverEffect(true, effects.hearts)
     game.gameOver(true)
+})
+info.onLifeZero(function () {
+    game.setGameOverEffect(false, effects.melt)
+    game.gameOver(false)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
     pause(1000)
 })
+game.setDialogCursor(img`
+    . . . . . . . . . . . . . . . . 
+    . 4 4 4 . . . . . . . . . . . . 
+    . 4 4 4 4 1 1 2 . . . . . . . . 
+    . 4 4 4 4 2 1 2 . . . . . . . . 
+    . . 4 4 4 2 1 1 . . . . . . . . 
+    . . . 4 4 4 4 4 . . . . . . . . 
+    . . . . 4 4 4 4 4 . . . . . . . 
+    . . . . . 4 4 4 4 4 . . . . . . 
+    . . . . . . 4 4 4 4 . . . . . . 
+    . . . . . . . 4 4 4 4 . . . . . 
+    . . . . . . . . . 4 4 4 . . . . 
+    . . . . . . . . . . 4 4 4 . . . 
+    . . . . . . . . . . . 4 4 4 . . 
+    . . . . . . . . . . . . 4 4 . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `)
+game.showLongText("특타중인 선수들", DialogLayout.Bottom)
+game.showLongText("날아오는 공에 조심하자 !!", DialogLayout.Bottom)
+game.showLongText("(왼쪽 위에 날아오는 공을 피하세요 )", DialogLayout.Bottom)
 scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
@@ -185,12 +210,14 @@ let mySprite3 = sprites.create(img`
     `, SpriteKind.Enemy)
 mySprite3.setPosition(randint(0, 10), randint(0, 10))
 mySprite2.setPosition(randint(0, 10), randint(0, 10))
-info.startCountdown(10)
 info.setLife(3)
+info.setScore(0)
 forever(function () {
     mySprite3.setPosition(randint(0, 10), randint(0, 10))
     mySprite2.setPosition(randint(0, 10), randint(0, 10))
     mySprite3.setVelocity(100, randint(300, 10))
     mySprite2.setVelocity(100, randint(200, 10))
     pause(2000)
+    pause(1000)
+    info.changeScoreBy(1)
 })
